@@ -1,14 +1,10 @@
-
 package com.malicine.app;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.graphics.Color;
 import android.view.Gravity;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.ScrollView;
-import android.widget.EditText;
+import android.widget.*;
 
 public class MainActivity extends Activity {
 
@@ -17,40 +13,51 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         LinearLayout main = new LinearLayout(this);
-        main.setOrientation(LinearLayout.VERTICAL);
-        main.setBackgroundColor(Color.rgb(15, 15, 20));
-        main.setPadding(20, 25, 20, 20);
+        main.setOrientation(1);
+        main.setPadding(20, 35, 20, 20);
+        main.setBackgroundColor(Color.rgb(12, 10, 22));
 
         TextView logo = new TextView(this);
         logo.setText("🎬 MALI CINE");
-        logo.setTextSize(28);
         logo.setTextColor(Color.WHITE);
+        logo.setTextSize(30);
         logo.setGravity(Gravity.CENTER);
         main.addView(logo);
 
-        TextView subtitle = new TextView(this);
-        subtitle.setText("Vos films préférés, au même endroit");
-        subtitle.setTextColor(Color.LTGRAY);
-        subtitle.setTextSize(14);
-        subtitle.setGravity(Gravity.CENTER);
-        main.addView(subtitle);
+        TextView bienvenue = new TextView(this);
+        bienvenue.setText("Le cinéma à portée de main");
+        bienvenue.setTextColor(Color.LTGRAY);
+        bienvenue.setGravity(Gravity.CENTER);
+        main.addView(bienvenue);
 
-        EditText search = new EditText(this);
-        search.setHint("Rechercher un film...");
-        search.setTextColor(Color.WHITE);
-        search.setHintTextColor(Color.GRAY);
-        main.addView(search);
+        EditText recherche = new EditText(this);
+        recherche.setHint("Rechercher un film...");
+        recherche.setTextColor(Color.WHITE);
+        recherche.setHintTextColor(Color.LTGRAY);
+        main.addView(recherche);
 
-        ScrollView scroll = new ScrollView(this);
-        LinearLayout content = new LinearLayout(this);
-        content.setOrientation(LinearLayout.VERTICAL);
+        TextView vedette = new TextView(this);
+        vedette.setText("⭐ FILM À LA UNE");
+        vedette.setTextColor(Color.rgb(180, 100, 255));
+        vedette.setTextSize(22);
+        vedette.setPadding(0, 30, 0, 15);
+        main.addView(vedette);
 
-        TextView title = new TextView(this);
-        title.setText("Explorer les films");
-        title.setTextSize(22);
-        title.setTextColor(Color.WHITE);
-        title.setPadding(0, 25, 0, 15);
-        content.addView(title);
+        TextView affiche = new TextView(this);
+        affiche.setText("🍿\\n\\nMALI CINE\\n\\nDécouvrez votre prochain film préféré");
+        affiche.setTextColor(Color.WHITE);
+        affiche.setTextSize(22);
+        affiche.setGravity(Gravity.CENTER);
+        affiche.setPadding(15, 45, 15, 45);
+        affiche.setBackgroundColor(Color.rgb(65, 30, 100));
+        main.addView(affiche);
+
+        TextView titre = new TextView(this);
+        titre.setText("Explorer les catégories");
+        titre.setTextColor(Color.WHITE);
+        titre.setTextSize(22);
+        titre.setPadding(0, 25, 0, 15);
+        main.addView(titre);
 
         String[] categories = {
             "🔥 Tendances",
@@ -62,18 +69,20 @@ public class MainActivity extends Activity {
             "📺 Séries"
         };
 
-        for (String category : categories) {
+        for (String categorie : categories) {
             TextView item = new TextView(this);
-            item.setText(category);
-            item.setTextSize(18);
+            item.setText(categorie);
             item.setTextColor(Color.WHITE);
-            item.setPadding(15, 18, 15, 18);
-            content.addView(item);
-        }
+            item.setTextSize(18);
+            item.setPadding(18, 20, 18, 20);
+            item.setBackgroundColor(Color.rgb(35, 25, 50));
 
-        scroll.addView(content);
-        main.addView(scroll);
+            LinearLayout.LayoutParams params =
+                new LinearLayout.LayoutParams(-1, -2);
+            params.setMargins(0, 5, 0, 5);
+            main.addView(item, params);
+        }
 
         setContentView(main);
     }
-                     }
+}
