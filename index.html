@@ -109,5 +109,12 @@ afficher();
 document.getElementById("recherche").addEventListener("input",afficher);
 afficher();
 </script>
+  function fermerLecteur(){
+  const video = document.getElementById("videoFilm");
+  video.pause();
+  video.removeAttribute("src");
+  video.load();
+  document.getElementById("lecteur").style.display="none";
+}
 </body>
 </html>
