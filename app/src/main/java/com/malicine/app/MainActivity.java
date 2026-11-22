@@ -1,5 +1,5 @@
 
-package com.example.malicine;
+package com.malicine.app;
 
 import android.app.Activity;
 import android.os.Bundle;
