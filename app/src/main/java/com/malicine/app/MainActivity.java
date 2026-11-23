@@ -157,7 +157,12 @@ void afficherFilms(String recherche) {
             carteFilm.addView(titre);
             carteFilm.addView(genre);
             carteFilm.addView(bouton);
-
+             bouton.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        demanderVideo(index);
+    }
+});
             carteFilm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
