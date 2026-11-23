@@ -54,37 +54,67 @@ String[] emojis = {
         return t;
     }
 
-    void afficherFilms(String recherche) {
-        listeFilms.removeAllViews();
-        boolean trouve = false;
+    
+void afficherFilms(String recherche) {
+    listeFilms.removeAllViews();
+    boolean trouve = false;
 
-        for (int i = 0; i < films.length; i++) {
-            if (films[i].toLowerCase().contains(recherche.toLowerCase())
-                || genres[i].toLowerCase().contains(recherche.toLowerCase())) {
+    for (int i = 0; i < films.length; i++) {
+        if (films[i].toLowerCase().contains(recherche.toLowerCase())
+            || genres[i].toLowerCase().contains(recherche.toLowerCase())) {
 
-                trouve = true;
+            trouve = true;
 
-                TextView item = texte(
-                    emojis[i] + "   " + films[i] + "\n" + genres[i],
-                    18, Color.WHITE
-                );
-                item.setPadding(dp(16), dp(20), dp(16), dp(20));
-                item.setBackground(carte(Color.rgb(42, 28, 58)));
+            LinearLayout carteFilm = new LinearLayout(this);
+            carteFilm.setOrientation(0);
+            carteFilm.setGravity(Gravity.CENTER_VERTICAL);
+            carteFilm.setPadding(dp(15), dp(15), dp(15), dp(15));
+            carteFilm.setBackground(carte(Color.rgb(42, 28, 58)));
 
-                LinearLayout.LayoutParams p =
-                    new LinearLayout.LayoutParams(-1, -2);
-                p.setMargins(0, dp(5), 0, dp(5));
-                listeFilms.addView(item, p);
-            }
-        }
+            TextView affiche = texte(emojis[i], 38, Color.WHITE);
+            carteFilm.addView(affiche);
 
-        if (!trouve) {
-            TextView vide = texte(
-                "Aucun film trouvé", 16, Color.LTGRAY);
-            vide.setPadding(0, dp(20), 0, dp(20));
-            listeFilms.addView(vide);
+            LinearLayout infos = new LinearLayout(this);
+            infos.setOrientation(1);
+            infos.setPadding(dp(15), 0, 0, 0);
+
+            TextView nom = texte(films[i], 17, Color.WHITE);
+            nom.setTypeface(null, Typeface.BOLD);
+            infos.addView(nom);
+
+            TextView genre = texte(genres[i], 13, Color.LTGRAY);
+            genre.setPadding(0, dp(6), 0, 0);
+            infos.addView(genre);
+
+            Button details = new Button(this);
+            details.setText("Détails");
+            details.setOnClickListener(v -> {
+                new android.app.AlertDialog.Builder(this)
+                    .setTitle(films[i])
+                    .setMessage("Catégorie : " + genres[i])
+                    .setPositiveButton("Fermer", null)
+                    .show();
+            });
+            infos.addView(details);
+
+            carteFilm.addView(infos,
+                new LinearLayout.LayoutParams(0, -2, 1));
+
+            LinearLayout.LayoutParams p =
+                new LinearLayout.LayoutParams(-1, -2);
+            p.setMargins(0, dp(6), 0, dp(6));
+
+            listeFilms.addView(carteFilm, p);
         }
     }
+
+    if (!trouve) {
+        listeFilms.addView(
+            texte("Aucun film trouvé", 16, Color.LTGRAY)
+        );
+    }
+}
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
