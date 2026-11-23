@@ -158,6 +158,18 @@ public class MainActivity extends Activity {
             listeFilms.addView(vide);
         }
     }
+    void lireVideo(String adresseVideo) {
+    VideoView lecteur = new VideoView(this);
+
+    MediaController controles = new MediaController(this);
+    controles.setAnchorView(lecteur);
+
+    lecteur.setMediaController(controles);
+    lecteur.setVideoURI(android.net.Uri.parse(adresseVideo));
+
+    setContentView(lecteur);
+    lecteur.start();
+    }
 
     void ajouterCategorie(
         LinearLayout ligne, String nom, EditText recherche) {
