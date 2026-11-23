@@ -15,20 +15,23 @@ public class MainActivity extends Activity {
 
     int fond = Color.rgb(12, 10, 22);
     int violet = Color.rgb(160, 75, 255);
-
     String[] films = {
-        "Le dernier baobab",
-        "Les secrets de Bamako",
-        "Cœur du Sahel",
-        "Action au Mali",
-        "Amour et destin"
-    };
+    "Le dernier baobab",
+    "Les secrets de Bamako",
+    "Cœur du Sahel",
+    "Action au Mali",
+    "Amour et destin",
+    "The Blacklist - Raymond Reddington"
+};
 
-    String[] genres = {
-        "Drame", "Drame", "Romance", "Action", "Romance"
-    };
+String[] genres = {
+    "Drame", "Drame", "Romance",
+    "Action", "Romance", "Série policière"
+};
 
-    String[] emojis = {"🌳", "🌆", "❤️", "💥", "💕"};
+String[] emojis = {
+    "🌳", "🌆", "❤️", "💥", "💕", "🕴️"
+};
 
     LinearLayout listeFilms;
 
