@@ -187,7 +187,22 @@ void afficherFilms(String recherche) {
     }
                                  }
     
-    
+    void demanderVideo(int index) {
+    EditText lien = new EditText(this);
+    lien.setHint("Colle le lien de la vidéo MP4");
+
+    new AlertDialog.Builder(this)
+        .setTitle("Regarder " + films[index])
+        .setView(lien)
+        .setPositiveButton("Lire", (dialog, which) -> {
+            String adresse = lien.getText().toString().trim();
+            if (!adresse.isEmpty()) {
+                lireVideo(adresse);
+            }
+        })
+        .setNegativeButton("Annuler", null)
+        .show();
+    }
     void lireVideo(String adresseVideo) {
     VideoView lecteur = new VideoView(this);
 
