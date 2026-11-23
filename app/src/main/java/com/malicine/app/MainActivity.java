@@ -182,7 +182,7 @@ void afficherFilms(String recherche) {
     }
                                  }
     
-    }
+    
     void lireVideo(String adresseVideo) {
     VideoView lecteur = new VideoView(this);
 
