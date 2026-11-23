@@ -77,86 +77,111 @@ public class MainActivity extends Activity {
             .show();
     }
 
-    void afficherFilms(String recherche) {
-        listeFilms.removeAllViews();
+    
+void afficherFilms(String recherche) {
+    listeFilms.removeAllViews();
 
-        boolean trouve = false;
+    String[] dessins = {
+        "🤖", "🥷", "🚀", "🌳",
+        "🏙️", "❤️", "⚔️", "🌹"
+    };
 
-        for (int i = 0; i < films.length; i++) {
+    int[] couleurs = {
+        Color.rgb(20, 70, 130),
+        Color.rgb(90, 20, 120),
+        Color.rgb(0, 100, 130),
+        Color.rgb(20, 100, 60),
+        Color.rgb(120, 50, 20),
+        Color.rgb(150, 20, 80),
+        Color.rgb(120, 30, 20),
+        Color.rgb(100, 20, 100)
+    };
 
-            boolean rechercheOK =
-                films[i].toLowerCase().contains(recherche.toLowerCase())
-                || genres[i].toLowerCase().contains(recherche.toLowerCase());
+    boolean trouve = false;
+    int position = 0;
+    LinearLayout ligne = null;
 
-            boolean categorieOK =
-                categorie.equals("Tous")
-                || genres[i].equalsIgnoreCase(categorie);
+    for (int i = 0; i < films.length; i++) {
 
-            if (rechercheOK && categorieOK) {
+        boolean rechercheOK =
+            films[i].toLowerCase().contains(recherche.toLowerCase())
+            || genres[i].toLowerCase().contains(recherche.toLowerCase());
 
-                trouve = true;
+        boolean categorieOK =
+            categorie.equals("Tous")
+            || genres[i].equalsIgnoreCase(categorie);
 
-                final int index = i;
+        if (rechercheOK && categorieOK) {
+            trouve = true;
 
-                LinearLayout carteFilm = new LinearLayout(this);
-                carteFilm.setOrientation(1);
-                carteFilm.setPadding(dp(16), dp(16), dp(16), dp(16));
-                carteFilm.setBackground(carte(Color.rgb(35, 25, 50), 16));
-
-                LinearLayout.LayoutParams params =
-                    new LinearLayout.LayoutParams(
-                        -1, -2
-                    );
-
-                params.setMargins(0, dp(7), 0, dp(7));
-
-                TextView titre = texte(
-                    "🎬  " + films[i], 19, blanc
-                );
-
-                titre.setTypeface(null, Typeface.BOLD);
-
-                TextView genre = texte(
-                    "Genre : " + genres[i], 13, violet
-                );
-
-                TextView description = texte(
-                    descriptions[i], 14, Color.LTGRAY
-                );
-
-                description.setPadding(0, dp(8), 0, dp(8));
-
-                TextView bouton = texte(
-                    "Voir les détails  →", 14, blanc
-                );
-
-                bouton.setTypeface(null, Typeface.BOLD);
-                bouton.setPadding(0, dp(8), 0, 0);
-
-                carteFilm.addView(titre);
-                carteFilm.addView(genre);
-                carteFilm.addView(description);
-                carteFilm.addView(bouton);
-
-                carteFilm.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        afficherDetails(index);
-                    }
-                });
-
-                listeFilms.addView(carteFilm, params);
+            if (position % 2 == 0) {
+                ligne = new LinearLayout(this);
+                ligne.setOrientation(0);
+                listeFilms.addView(ligne,
+                    new LinearLayout.LayoutParams(-1, -2));
             }
-        }
 
-        if (!trouve) {
-            TextView vide = texte(
-                "Aucun film trouvé", 16, Color.LTGRAY
-            );
-            vide.setGravity(Gravity.CENTER);
-            vide.setPadding(0, dp(30), 0, dp(30));
-            listeFilms.addView(vide);
+            final int index = i;
+
+            LinearLayout carteFilm = new LinearLayout(this);
+            carteFilm.setOrientation(1);
+            carteFilm.setPadding(dp(6), dp(6), dp(6), dp(10));
+            carteFilm.setBackground(carte(Color.rgb(30, 25, 40), 14));
+
+            LinearLayout.LayoutParams cp =
+                new LinearLayout.LayoutParams(0, -2, 1);
+            cp.setMargins(dp(4), dp(6), dp(4), dp(6));
+
+            TextView affiche = texte(
+                dessins[i] + "\n\nMALI CINÉ", 30, blanc);
+            affiche.setGravity(Gravity.CENTER);
+            affiche.setTypeface(null, Typeface.BOLD);
+            affiche.setBackground(carte(couleurs[i], 12));
+            affiche.setLayoutParams(
+                new LinearLayout.LayoutParams(-1, dp(175)));
+
+            TextView titre = texte(films[i], 16, blanc);
+            titre.setGravity(Gravity.CENTER);
+            titre.setTypeface(null, Typeface.BOLD);
+            titre.setPadding(0, dp(8), 0, dp(5));
+
+            TextView genre = texte(genres[i], 12, violet);
+            genre.setGravity(Gravity.CENTER);
+
+            TextView bouton = texte("▶ Regarder", 14, blanc);
+            bouton.setGravity(Gravity.CENTER);
+            bouton.setPadding(0, dp(8), 0, dp(8));
+            bouton.setBackground(carte(violet, 20));
+
+            carteFilm.addView(affiche);
+            carteFilm.addView(titre);
+            carteFilm.addView(genre);
+            carteFilm.addView(bouton);
+
+            carteFilm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    afficherDetails(index);
+                }
+            });
+
+            ligne.addView(carteFilm, cp);
+            position++;
         }
+    }
+
+    if (!trouve) {
+        TextView vide = texte("Aucun film trouvé", 16, blanc);
+        vide.setGravity(Gravity.CENTER);
+        listeFilms.addView(vide);
+    }
+
+    if (position % 2 != 0 && ligne != null) {
+        ligne.addView(new View(this),
+            new LinearLayout.LayoutParams(0, 1, 1));
+    }
+                                 }
+    
     }
     void lireVideo(String adresseVideo) {
     VideoView lecteur = new VideoView(this);
