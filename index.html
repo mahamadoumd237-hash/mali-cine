@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -7,108 +6,155 @@
 <title>Mali Ciné</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#101018;color:white;font-family:Arial,sans-serif}
-header{background:#191923;padding:22px 15px;text-align:center;border-bottom:3px solid #e5b52b}
-h1{color:#f5c542;margin:0;font-size:30px}
-header p{color:#ddd;margin-bottom:0}
+body{
+ margin:0;background:#0b0914;color:white;
+ font-family:Arial,sans-serif;
+}
+header{
+ background:#151020;padding:22px 16px;text-align:center;
+ border-bottom:1px solid #302342;
+}
+.logo{font-size:32px;font-weight:bold;color:#a34cff}
+header p{color:#ccc;margin:8px 0 0}
+h2{padding:0 16px;margin-top:26px}
 .search{padding:15px}
-input{width:100%;padding:14px;border:0;border-radius:9px;font-size:16px}
-.categories{display:flex;gap:8px;overflow-x:auto;padding:0 12px 15px}
-.categories button{background:#292936;color:white;border:0;border-radius:20px;padding:11px 16px;white-space:nowrap}
-.categories button.active{background:#e5b52b;color:#111}
-h2{padding:0 15px;color:#f5c542}
-.catalogue{display:grid;grid-template-columns:repeat(2,1fr);gap:13px;padding:12px}
-.film{background:#20202b;border-radius:12px;overflow:hidden}
-.poster{height:155px;display:flex;align-items:center;justify-content:center;font-size:55px;background:linear-gradient(135deg,#49335e,#bd7b35)}
-.info{padding:11px}
-.info h3{font-size:16px;margin:3px 0 7px}
-.info p{font-size:13px;color:#ccc;min-height:32px}
-.info a{display:block;text-align:center;background:#e5b52b;color:#111;text-decoration:none;padding:10px;border-radius:7px;font-weight:bold;font-size:13px}
-footer{text-align:center;padding:25px;color:#aaa;font-size:13px}
+.search input{
+ width:100%;padding:15px;border:0;border-radius:14px;
+ background:#251d36;color:white;font-size:16px;outline:none
+}
+.categories{
+ display:flex;gap:9px;overflow-x:auto;padding:0 15px 10px;
+}
+.categories button{
+ border:0;border-radius:30px;padding:12px 18px;
+ background:#292238;color:white;white-space:nowrap;
+}
+.categories button.active{background:#9946fa}
+.catalogue{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:13px;padding:14px;
+}
+.card{
+ background:#1b1727;border-radius:17px;overflow:hidden;
+ padding:9px;
+}
+.poster{
+ height:190px;border-radius:12px;display:flex;
+ align-items:center;justify-content:center;
+ text-align:center;padding:10px;font-size:40px;
+ font-weight:bold;background:linear-gradient(145deg,#39226a,#171328);
+}
+.poster span{font-size:23px;text-shadow:0 2px 8px #000}
+.info{text-align:center;padding:10px 2px}
+.info h3{margin:6px 0;font-size:17px}
+.info p{color:#b58be8;margin:6px 0;font-size:13px}
+.watch{
+ display:block;width:100%;padding:12px;border:0;border-radius:30px;
+ background:#9845f6;color:white;font-size:15px;font-weight:bold;
+}
+.watch:active{opacity:.8}
+footer{text-align:center;padding:25px;color:#888;font-size:13px}
+.empty{grid-column:1/-1;text-align:center;color:#aaa;padding:30px}
 </style>
 </head>
 <body>
 
 <header>
-<h1>🎬 MALI CINÉ</h1>
-<p>Films, séries et dessins animés</p>
+ <div class="logo">🎬 MALI CINÉ</div>
+ <p>Votre cinéma dans votre poche</p>
 </header>
 
+<h2>Bienvenue sur Mali Ciné</h2>
+
 <div class="search">
-<input id="recherche" type="search" placeholder="Rechercher un film ou une série...">
+ <input id="search" type="search" placeholder="🔍 Rechercher un film...">
 </div>
 
-<div class="categories">
-<button class="active" onclick="filtrer('Tous',this)">Tous</button>
-<button onclick="filtrer('Mali',this)">Mali</button>
-<button onclick="filtrer('Afrique',this)">Afrique</button>
-<button onclick="filtrer('International',this)">International</button>
-<button onclick="filtrer('Séries',this)">Séries</button>
-<button onclick="filtrer('Animation',this)">Dessins animés</button>
+<div class="categories" id="categories">
+ <button class="active" data-category="Tous">Tous</button>
+ <button data-category="Action">Action</button>
+ <button data-category="Drame">Drame</button>
+ <button data-category="Romance">Romance</button>
+ <button data-category="Anime">Anime</button>
+ <button data-category="Science-fiction">Sci-Fi</button>
+ <button data-category="Série">Séries</button>
 </div>
 
-<h2>🍿 Notre catalogue</h2>
+<h2>🔥 Films et séries</h2>
 <div class="catalogue" id="catalogue"></div>
-  <div id="lecteur" style="display:none;background:#111;padding:15px">
-  <h2 id="titreVideo">Regarder le film</h2>
-  <video id="videoFilm" controls playsinline style="width:100%"></video>
-  <button onclick="fermerLecteur()">Fermer</button>
-  </div>
 
 <footer>
-Mali Ciné © 2026<br>
-Catalogue de découverte et bandes-annonces.
+ Mali Ciné · Films, séries et animés<br>
+ Les boutons ouvrent les bandes-annonces disponibles sur YouTube.
 </footer>
 
 <script>
-const films = [
-{titre:"Bamako",cat:"Mali",emoji:"🇲🇱",desc:"Un film autour de la vie à Bamako."},
-{titre:"Timbuktu",cat:"Mali",emoji:"🏜️",desc:"Un drame dans le nord du Mali."},
-{titre:"Yeelen",cat:"Mali",emoji:"☀️",desc:"Un grand classique du cinéma malien."},
-{titre:"La Noire de...",cat:"Afrique",emoji:"🎭",desc:"Un film classique du cinéma africain."},
-{titre:"Moolaadé",cat:"Afrique",emoji:"🌍",desc:"Un film africain marquant."},
-{titre:"Black Panther",cat:"Afrique",emoji:"🐾",desc:"Une aventure inspirée de l'Afrique."},
-{titre:"Inception",cat:"International",emoji:"🌌",desc:"Un voyage dans les rêves."},
-{titre:"Interstellar",cat:"International",emoji:"🚀",desc:"Une aventure dans l'espace."},
-{titre:"Le Roi Lion",cat:"International",emoji:"🦁",desc:"L'histoire du jeune Simba."},
-{titre:"Maîtresse d'un homme marié",cat:"Séries",emoji:"❤️",desc:"Une série dramatique sénégalaise."},
-{titre:"Stranger Things",cat:"Séries",emoji:"👾",desc:"Mystères et aventures."},
-{titre:"La Casa de Papel",cat:"Séries",emoji:"🎭",desc:"Une série de braquage."},
-{titre:"Toy Story",cat:"Animation",emoji:"🤠",desc:"Les aventures des jouets."},
-{titre:"Pokémon",cat:"Animation",emoji:"⚡",desc:"Des aventures extraordinaires."},
-{titre:"Le Voyage de Chihiro",cat:"Animation",emoji:"🐉",desc:"Un voyage dans un monde magique."}
+const films=[
+ {title:"John Wick",cat:"Action",emoji:"🥷",color:"#4a185f"},
+ {title:"Extraction",cat:"Action",emoji:"🚀",color:"#075c77"},
+ {title:"The Blacklist",cat:"Série",emoji:"🤖",color:"#164d87"},
+ {title:"Le dernier baobab",cat:"Drame",emoji:"🌳",color:"#17663e"},
+ {title:"Avengers Endgame",cat:"Science-fiction",emoji:"🦸",color:"#783020"},
+ {title:"Transformers",cat:"Science-fiction",emoji:"🤖",color:"#174b84"},
+ {title:"Titanic",cat:"Romance",emoji:"🚢",color:"#173e6c"},
+ {title:"Fast and Furious",cat:"Action",emoji:"🏎️",color:"#8a271c"},
+ {title:"Solo Leveling",cat:"Anime",emoji:"⚔️",color:"#311c55"},
+ {title:"Demon Slayer",cat:"Anime",emoji:"🔥",color:"#6b252c"},
+ {title:"One Piece",cat:"Anime",emoji:"🏴‍☠️",color:"#176e91"},
+ {title:"Spider-Man",cat:"Action",emoji:"🕷️",color:"#8b2027"},
+ {title:"Interstellar",cat:"Science-fiction",emoji:"🌌",color:"#213858"},
+ {title:"Squid Game",cat:"Série",emoji:"🎭",color:"#76204e"},
+ {title:"The Walking Dead",cat:"Série",emoji:"🧟",color:"#465329"},
+ {title:"Naruto",cat:"Anime",emoji:"🍥",color:"#a45619"}
 ];
 
-let categorie="Tous";
+let currentCategory="Tous";
 
-function afficher(){
-const recherche=document.getElementById("recherche").value.toLowerCase();
-const resultat=films.filter(f=>
-(categorie==="Tous" || f.cat===categorie) &&
-(f.titre.toLowerCase().includes(recherche) || f.desc.toLowerCase().includes(recherche))
-);
-document.getElementById("catalogue").innerHTML=resultat.map(f=>`
-<div class="film">
-<div class="poster">${f.emoji}</div>
-<div class="info">
-<h3>${f.titre}</h3>
-<p>${f.desc}</p>
-<a target="_blank" href="https://www.youtube.com/results?search_query=${encodeURIComponent(f.titre+" bande annonce officielle")}">Voir la bande-annonce</a>
-</div>
-</div>
-`).join("") || "<p>Aucun résultat trouvé.</p>";
-
-
-function filtrer(cat,btn){
-categorie=cat;
-document.querySelectorAll(".categories button").forEach(b=>b.classList.remove("active"));
-btn.classList.add("active");
-afficher();
+function showFilms(){
+ const query=document.getElementById("search").value.toLowerCase();
+ const catalogue=document.getElementById("catalogue");
+ catalogue.innerHTML="";
+ const filtered=films.filter(f=>
+  (currentCategory==="Tous"||f.cat===currentCategory)&&
+  f.title.toLowerCase().includes(query)
+ );
+ if(filtered.length===0){
+  catalogue.innerHTML='<div class="empty">Aucun film trouvé 😕</div>';
+  return;
+ }
+ filtered.forEach(f=>{
+  const card=document.createElement("div");
+  card.className="card";
+  card.innerHTML=`
+   <div class="poster" style="background:linear-gradient(145deg,${f.color},#100c1c)">
+    <span>${f.emoji}<br>MALI CINÉ</span>
+   </div>
+   <div class="info">
+    <h3>${f.title}</h3>
+    <p>${f.cat}</p>
+    <button class="watch">▶ Bande-annonce</button>
+   </div>`;
+  card.querySelector(".watch").onclick=()=>{
+   const url="https://www.youtube.com/results?search_query="+
+    encodeURIComponent(f.title+" bande annonce français");
+   window.open(url,"_blank");
+  };
+  catalogue.appendChild(card);
+ });
 }
 
-document.getElementById("recherche").addEventListener("input",afficher);
-afficher();
-</script>
+document.getElementById("search").addEventListener("input",showFilms);
 
+document.querySelectorAll("#categories button").forEach(button=>{
+ button.onclick=()=>{
+  document.querySelectorAll("#categories button").forEach(b=>b.classList.remove("active"));
+  button.classList.add("active");
+  currentCategory=button.dataset.category;
+  showFilms();
+ };
+});
+
+showFilms();
+</script>
 </body>
-</html>
+  </html>
